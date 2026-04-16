@@ -156,12 +156,22 @@
         document.getElementById('dateLabel').innerText = type === 'EXAM' ? 'EXAM DATE' : 'DEADLINE';
     }
 
-    function login() {
-        if(document.getElementById('uIn').value === 'User' && document.getElementById('pIn').value === '123456') {
-            document.getElementById('auth-overlay').style.display = 'none';
-            document.getElementById('main-app').style.display = 'flex';
-            loadData();
-        }
+    async function login() {
+    const email = document.getElementById('uIn').value; //Use Email
+    const password = document.getElementById('pIn').value;
+
+    const { data, error } = await client.auth.signInWithPassword({
+        email: email,
+        password: password,
+    });
+
+    if (error) {
+        alert("Login failed: " + error.message);
+    } else {
+        document.getElementById('auth-overlay').style.display = 'none';
+        document.getElementById('main-app').style.display = 'flex';
+        loadData();
+    }
     }
 
     async function editProfile() {
